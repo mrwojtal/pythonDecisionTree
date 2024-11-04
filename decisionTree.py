@@ -1,5 +1,6 @@
 import numpy as np
 from collections import Counter
+
 class Node: #python trick: ,*, value=None means that value has to be passed like value=x
     def __init__(self, feature=None, threshold=None, left=None, right=None,*,value=None):
         self.feature = feature
@@ -10,6 +11,7 @@ class Node: #python trick: ,*, value=None means that value has to be passed like
 
     def is_leaf_node(self):
         return self.value is not None
+
 class Tree:
     def __init__(self, min_samples_split=2, max_depth=100, n_features=None):
         self.min_samples_split = min_samples_split
@@ -45,7 +47,8 @@ class Tree:
         right = self._build_tree(X[right_idxs, :], y[right_idxs], tree_depth+1)
         return Node(best_feature, best_threshold, left, right)
 
-    def _most_common_label(self, y):
+    @staticmethod
+    def _most_common_label(y):
         counter = Counter(y)
         return counter.most_common(1)[0][0]
 
@@ -87,12 +90,14 @@ class Tree:
         information_gain = parent_entropy - child_entropy
         return information_gain
 
-    def _split(self, X_column, split_threshold):
+    @staticmethod
+    def _split(X_column, split_threshold):
         left_idxs = np.argwhere(X_column <= split_threshold).flatten()
         right_idxs = np.argwhere(X_column > split_threshold).flatten()
         return left_idxs, right_idxs
 
-    def _entropy(self, y):
+    @staticmethod
+    def _entropy(y):
         hist = np.bincount(y)
         ps = hist/len(y)
         sump = list()

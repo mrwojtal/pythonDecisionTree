@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from decisionTree import Tree
 import matplotlib.pyplot as plt
+
 data = datasets.load_iris()
 X, y = data.data, data.target
 #print(X)
